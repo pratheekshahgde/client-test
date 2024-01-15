@@ -1,13 +1,14 @@
 import { Box, Button } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
-
+import { useMediaQuery } from 'react-responsive'
 
 import React from "react";
 
 export default function Home() {
   const [longUrl, setLongUrl] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' })
 
   const triggerApiRequest = () => {
     // Disable the button to prevent multiple clicks
@@ -32,12 +33,20 @@ export default function Home() {
         setIsButtonDisabled(false);
       })
   }
+  const openDeepLink = () => {
+    // Use the 'intent' URL scheme for Android
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const link = isAndroid ? `intent://${longUrl}#Intent;end` : longUrl;
+
+    window.location.href = link;
+  };
 
   return (
     <Box>
 
-      <a href={longUrl} target="_blank" rel="noreferrer" >deep link</a>
+      <a href={longUrl} target="_blank" rel="noreferrer" >deep link {isMobile}</a>
       <Button onClick={triggerApiRequest} isLoading={isButtonDisabled} > Click</Button>
+      <Button onClick={openDeepLink}>Open Deep Link</Button>
     </Box>
   )
 }
