@@ -43,8 +43,6 @@ export default function Home() {
 
   return (
     <Box>
-
-      <a href={longUrl} target="_blank" rel="noreferrer" >deep link {isMobile}</a>
       <Button onClick={triggerApiRequest} isLoading={isButtonDisabled} > Click</Button>
       <Button onClick={openDeepLink}>Open Deep Link</Button>
     </Box>
