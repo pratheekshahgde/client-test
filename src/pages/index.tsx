@@ -6,7 +6,7 @@ import NextLink from 'next/link'
 import React from "react";
 
 export default function Home() {
-  const [longUrl, setLongUrl] = useState("");
+  const [longUrl, setLongUrl] = useState("xyz");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const triggerApiRequest = () => {
@@ -17,8 +17,8 @@ export default function Home() {
     axios.get("https://easy-openly-skunk.ngrok-free.app/create-offer-sample")
       .then(response => {
         // Extract the long URL from the API response
-        const fetchedLongUrl = response.data.longUrl;
-
+        const fetchedLongUrl = response.data.invitationUrl;
+        console.log(fetchedLongUrl)
         // Update the state with the long URL
         setLongUrl(fetchedLongUrl);
 
@@ -31,13 +31,13 @@ export default function Home() {
         // Enable the button in case of an error
         setIsButtonDisabled(false);
       })
-    }
-  
-  return(
+  }
+
+  return (
     <Box>
-      <Link as={NextLink}  target="_blank" href={longUrl}> deeplink </Link>
-    
-        <Button onClick={triggerApiRequest} disabled={isButtonDisabled} > Click</Button>
-        </Box>
-    )
+      <Link as={NextLink} target="_blank" href={longUrl}> deeplink </Link>
+
+      <Button onClick={triggerApiRequest} disabled={isButtonDisabled} > Click</Button>
+    </Box>
+  )
 }
