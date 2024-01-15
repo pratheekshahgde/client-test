@@ -37,7 +37,7 @@ export default function Home() {
     <Box>
       <Link as={NextLink} target="_blank" href={longUrl}> deeplink </Link>
 
-      <Button onClick={triggerApiRequest} disabled={isButtonDisabled} > Click</Button>
+      <Button onClick={triggerApiRequest} isLoading={isButtonDisabled} > Click</Button>
     </Box>
   )
 }
