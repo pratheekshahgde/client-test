@@ -6,7 +6,7 @@ import axios from "axios";
 import React from "react";
 
 export default function Home() {
-  const [longUrl, setLongUrl] = useState("xyz");
+  const [longUrl, setLongUrl] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const triggerApiRequest = () => {
@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <Box>
 
-      <a href={longUrl}>deep link</a>
+      <a href={longUrl} target="_blank" rel="noreferrer" >deep link</a>
       <Button onClick={triggerApiRequest} isLoading={isButtonDisabled} > Click</Button>
     </Box>
   )
