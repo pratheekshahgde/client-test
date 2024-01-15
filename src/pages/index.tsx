@@ -1,44 +1,43 @@
-import {
-  TabPanel, Tab, TabList, Tabs, TabPanels, Button, Text
-} from "@chakra-ui/react"
-import Prof from "@/components/ProfessorForm"
-import Stud from "@/components/StudentForm"
-import { clearData } from "./api/connectionAPI"
-import { useEffect, useState } from "react"
-import { getCredDefId } from "./api/credApi"
+import { Box, Button, Link } from "@chakra-ui/react";
+import { useState } from "react";
+import axios from "axios";
+
+import NextLink from 'next/link'
+import React from "react";
 
 export default function Home() {
-  const [credDefId, setCredDefId] = useState("")
-  async function getCredId() {
-    let id = await getCredDefId()
-    setCredDefId(id)
-}
-useEffect(() => {
-  // const source = new EventSource('http://localhost:5001/inviteStatus')
-  //  source.onmessage = e => console.log(e.data)
-  getCredId()
-}, [])
+  const [longUrl, setLongUrl] = useState("");
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
-  return (
-    <>
-        <Button onClick={clearData} >clear data</Button>
-   <Tabs size='md' variant='enclosed' align="center">
+  const triggerApiRequest = () => {
+    // Disable the button to prevent multiple clicks
+    setIsButtonDisabled(true);
 
-            <TabList>
-                <Tab _selected={{ color: 'white', bg: 'blue.500' }}>Professsor</Tab>
-                <Tab _selected={{ color: 'white', bg: 'blue.400' }}>Student</Tab>
-            </TabList>
-            <TabPanels>
-                <TabPanel>
-                 <Prof />
-                </TabPanel>
-                <TabPanel>
-                   <Stud />
-                </TabPanel>
-            </TabPanels>
-        </Tabs>
-        status: {credDefId!="id not found"? <div>connected to server, <Text><b>cred def id:</b> {credDefId}</Text></div>:<div>not connected to server</div>}
-   
-    </>
-  )
+    // Make a request to the API using Axios
+    axios.get("https://easy-openly-skunk.ngrok-free.app/create-offer-sample")
+      .then(response => {
+        // Extract the long URL from the API response
+        const fetchedLongUrl = response.data.longUrl;
+
+        // Update the state with the long URL
+        setLongUrl(fetchedLongUrl);
+
+        // Enable the button after successful fetch
+        setIsButtonDisabled(false);
+      })
+      .catch(error => {
+        console.error("Error fetching data from the API:", error);
+
+        // Enable the button in case of an error
+        setIsButtonDisabled(false);
+      })
+    }
+  
+  return(
+    <Box>
+      <Link as={NextLink}  target="_blank" href={longUrl}> deeplink </Link>
+    
+        <Button onClick={triggerApiRequest} disabled={isButtonDisabled} > Click</Button>
+        </Box>
+    )
 }
