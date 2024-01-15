@@ -1,8 +1,8 @@
-import { Box, Button, Link } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
 
-import NextLink from 'next/link'
+
 import React from "react";
 
 export default function Home() {
@@ -35,8 +35,8 @@ export default function Home() {
 
   return (
     <Box>
-      <Link as={NextLink} target="_blank" href={longUrl}> deeplink </Link>
 
+      <a href={longUrl}>deep link</a>
       <Button onClick={triggerApiRequest} isLoading={isButtonDisabled} > Click</Button>
     </Box>
   )
